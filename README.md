@@ -18,8 +18,8 @@ This work follows the **Composable Custom Extension (CX)** specifications define
 
 This specification enables unlimited, independent, efficient, and robust composition of diverse RISC-V composable extensions, hardware composable extension units (CXUs), and software libraries.
 
-For detailed information about the CX specification, please refer to: [spec](spec/spec.pdf)
-- *RISC-V Composable Custom Extension (CX) Specification* — available in the project documentation.  
+For detailed information about the CX specification, please refer to: 
+- *RISC-V Composable Custom Extension (CX) Specification* : [spec](spec/spec.pdf)  
 - **Gray Research GitHub Repository:** [https://github.com/grayresearch/CX]([https://github.com/grayresearch/CX](https://github.com/grayresearch/CX)) — containing reference implementations, testbenches, and CX interface documentation.
 
 ## Implemented Functions
