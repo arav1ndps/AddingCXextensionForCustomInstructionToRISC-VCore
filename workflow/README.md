@@ -3,7 +3,7 @@
 > **Important note:** This repository does **not** contain AMD proprietary source code. It documents the full **methodology**, configuration files, scripts, IP wrappers, testbenches, and build artifacts (ELF files) used to integrate a **Composable Extension (CX)** into the **MicroBlaze-V** RISC-V core. The IP sources and MicroBlaze-V core modifications are AMD/third-party intellectual property and are therefore **not included** here. Where required, pointers to repository folders and configuration artifacts are provided.
 
 ---
-
+<!--
 ## Repository layout (relevant folders)
 
 ```
@@ -29,7 +29,7 @@
 ```
 
 > If your repository structure differs, adapt the folder names above to match your tree.
-
+-->
 ---
 ## 1 - Define the specifications
 The work follows specifications for the execution of the Custom Instruction defined by the RISC-V community. As the specifications were still being updated during this thesis period, we have made slight modifications to the spec documents.  
@@ -57,7 +57,7 @@ It includes stimulus generation, DUT integration, and self-checking result compa
 
 ## 8 — MicroBlaze-V Modifications
 
-Implemented modifications to perform the following functions to MicroBlaze-V 
+Implemented modifications to perform the following functions in MicroBlaze-V:<br>
 -CSR definitions (CX_status, CX_mcx_selector)
 -Instruction decode
 -Enable CX execution
@@ -69,7 +69,8 @@ Implemented modifications to perform the following functions to MicroBlaze-V
 ## 9 — Software Library definitions:
 
 The custom CX instructions used in this project were implemented using **GCC inline assembly macros**.  
-These macros provide a software abstraction layer that allows C programs to invoke the CX-based hardware accelerators directly through instruction-level encoding.
+These macros provide a software abstraction layer that allows C programs to invoke the CX-based hardware accelerators directly through instruction-level encoding.<br>
+
 The macros serve two main purposes:
 - To **encode custom instructions** following the CX specification format.  
 - To provide a **high-level software interface** that allows programmers to execute hardware accelerators from C without modifying compiler internals.
