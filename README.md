@@ -20,7 +20,7 @@ This specification enables unlimited, independent, efficient, and robust composi
 
 For detailed information about the CX specification, please refer to:
 - *RISC-V Composable Custom Extension (CX) Specification* — available in the project documentation.  
-- **Gray Research GitHub Repository:** [https://github.com/grayresearch]([https://github.com/grayresearch](https://github.com/grayresearch/CX)) — containing reference implementations, testbenches, and CX interface documentation.
+- **Gray Research GitHub Repository:** [https://github.com/grayresearch/CX]([https://github.com/grayresearch/CX](https://github.com/grayresearch/CX)) — containing reference implementations, testbenches, and CX interface documentation.
 
 ## Implemented Functions
 
