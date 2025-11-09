@@ -1,6 +1,6 @@
 # RISC-V Composable Custom Extensions (CX) Specification
 
-## 📘 Overview
+## Overview
 
 This repository provides a detailed overview of the **RISC-V Composable Custom Extensions (CX)** specification — a framework that defines hardware-software and hardware-hardware interfaces, enabling flexible integration of independently developed **custom instruction extensions** within RISC-V processors.
 
@@ -10,7 +10,7 @@ The specification defines how to integrate diverse **Composable Extension Units 
 
 ---
 
-## 🧩 Key Concepts
+## Key Concepts
 
 - **Composable Extension (CX):**  
   A fixed, named set of custom functions and control/status registers (CSRs), which may be stateless or stateful.
@@ -45,7 +45,7 @@ The specification defines how to integrate diverse **Composable Extension Units 
 
 ---
 
-## 🧠 Design Philosophy
+## Design Philosophy
 
 The CX framework promotes **open, modular, and interoperable design** principles by allowing independent teams to:
 
@@ -56,7 +56,7 @@ The CX framework promotes **open, modular, and interoperable design** principles
 
 ---
 
-## 🧾 Specification Details
+## Specification Details
 
 This repository references the draft document:  
 **_Draft Proposed RISC-V Composable Custom Extensions Specification (v0.95.240403)_**,  
@@ -72,13 +72,3 @@ Key sections include:
 
 Full details are available in the provided `spec.pdf`.  
 
-For upstream updates and discussions, see the original **Gray Research** GitHub repository:  
-🔗 [https://github.com/grayresearch](https://github.com/grayresearch)
-
----
-
-## 📄 License
-
-This work is distributed under the **Apache License, Version 2.0**.  
-You may obtain a copy at:  
-[www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
