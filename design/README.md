@@ -23,7 +23,8 @@ It enables the CPU to issue **custom instructions** through the CX interface, wh
 ## 2 - CX Interface
 
 **Location:** `microblaze/CX_interface/`
-![cx_interface_flow](./figures/cx_interface_flow.PNG)
+*Figure 2: CX interface functions*
+![cx_interface_flow](./figures/cx_interface_flow.png)
 The CX interface forms the **communication bridge** between the MicroBlaze-V pipeline and the external accelerator system.
 
 ### **Functionality**
