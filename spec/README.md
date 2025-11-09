@@ -16,7 +16,7 @@ The specification defines how to integrate diverse **Composable Extension Units 
   A fixed, named set of custom functions and control/status registers (CSRs), which may be stateless or stateful.
 
 - **Composable Extension Unit (CXU):**  
-  A hardware unit that implements one or more CXs. It communicates with the CPU through a standardized logic interface (CXU-LI).
+  A hardware unit that implements one or more CXs. It communicates with the CPU through a standardised logic interface (CXU-LI).
 
 - **CXU Logic Interface (CXU-LI):**  
   Defines the **hardware-to-hardware signaling protocol** between CPUs and CXUs, supporting fixed, variable, and reordering latency accelerators.
@@ -35,7 +35,7 @@ The specification defines how to integrate diverse **Composable Extension Units 
 
 ---
 
-## ⚙️ Features and Scope
+## Features and Scope
 
 - Enables seamless composition of hardware and software extensions across CPUs, accelerators, and libraries.  
 - Provides **collision-free multiplexing** of custom instructions and CSRs, removing dependency on central opcode allocation.  
