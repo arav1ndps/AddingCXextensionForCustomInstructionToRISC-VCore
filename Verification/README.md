@@ -1,9 +1,12 @@
-## 🧪 Verification Workflow
+## Verification Workflow
 
 A comprehensive **top-level testbench** was developed for the **functional verification** of the CX interface, the interconnect architecture, and the integrated accelerator modules.  
 The verification environment was designed to accurately replicate the behavior of the **software layer**, effectively simulating how the MicroBlaze-V software libraries issue CX-based custom instructions.
 
-### 1️⃣ Testbench Design
+
+![test_benchflow](./figures/test_bench.png)
+
+### Testbench Design
 
 The testbench emulates the software driver behavior by generating and sending instruction streams to the CX interface.  
 It manages the handshaking between the **CX master**, **interconnect**, and **accelerator modules**, ensuring that all data and control signals are properly synchronized.
@@ -15,7 +18,7 @@ It manages the handshaking between the **CX master**, **interconnect**, and **ac
 
 ---
 
-### 2️⃣ Test Vector Generation
+### Test Vector Generation
 
 Test vectors were automatically generated using a **Python-based generator script** located in the `verification/scripts/` directory.  
 The script concatenates:
@@ -28,7 +31,7 @@ The **input data** for each accelerator was extracted directly from the **inbuil
 
 ---
 
-### 3️⃣ Self-Checking Mechanism
+### Self-Checking Mechanism
 
 The verification setup includes a **self-checking system** that automatically validates the functional correctness of accelerator outputs.  
 After each simulation run:
@@ -42,7 +45,7 @@ This mechanism ensures that:
 
 ---
 
-### 4️⃣ Verification Outcomes
+### Verification Outcomes
 
 Upon completion of simulations:
 - All assertion checks on **AXI-Stream protocols**, **stalling logic**, and **CSR updates** passed successfully.
