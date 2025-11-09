@@ -21,45 +21,34 @@ It enables the CPU to issue **custom instructions** through the CX interface, wh
 ---
 
 ## 2 - CX Interface
-
-**Location:** `microblaze/CX_interface/`
+The CX interface designed in MicroBlaze-V handles the execution of custom instructions through a series of the following operations
 *Figure 2: CX interface functions*
 ![cx_interface_flow](./figures/cx_interface_flow.png)
-The CX interface forms the **communication bridge** between the MicroBlaze-V pipeline and the external accelerator system.
 
 ### **Functionality**
-- Receives **custom instruction opcodes** decoded from the MicroBlaze-V instruction stream.
-- Extracts the **CF_ID (Custom Function ID)** and **CXU_ID (Custom Execution Unit ID)** fields.
-- Sends these fields, along with operand data, to the interconnect using the **AXI4-Stream (M_AXIS)** interface.
-- Waits for the accelerator response via **S_AXIS** interface.
-- Handles **pipeline stalling** and **data forwarding** during execution.
-
-**Signals:**
-| Signal | Direction | Description |
-|---------|------------|-------------|
-| `CX_M_AXIS_*` | Output | Request channel to the interconnect |
-| `CX_S_AXIS_*` | Input | Response channel from the interconnect |
-| `CX_STALL` | Output | Indicates instruction stall to MicroBlaze-V pipeline |
-| `CX_DONE` | Input | Accelerator operation complete |
-| `CX_ERROR` | Input | Error flag from CXU |
+- Version Check: Ensures the MicroBlaze-V version matches the version of the CX extension
+- Data Ending: Encodes CXU_ID, CF_ID, and operand values for the AXI master payload.
+- Transmission of AXI-Stream, stall the pipeline in case of write-back, else continue the pipeline 
+- Receives the response and decodes the result and status of execution.
+- Updates the registers and the CSRs
 
 ---
 
-## 🧩 3️⃣ CX Interconnect
+## - CX Interconnect
 
 **Location:** `interconnect/`
 
-The interconnect is an **AXI4-Stream-based routing unit** that connects the CX interface to multiple accelerator wrappers.
+The interconnect has been designed to act as a bridge between the MicroBlaze-V core and the accelerators. Interconnect has two phases of execution: the write phase and the read phase.
 
-### **Functionality**
-- Routes CX requests to the correct accelerator based on the **CXU_ID**.
-- Performs **round-robin arbitration** when multiple accelerators request access.
-- Supports **scalable connections** (parameterized for number of accelerators).
-- Handles **AXI4-Stream handshaking** between source and destination.
-- Ensures deterministic latency by maintaining valid/ready synchronization.
+### - Write Phase
+The write phase of the interconnect contains the broadcaster, error handling unit, and CXU Error accumulator 
+*Figure 2: CX Interconnect Write Phase*  
+![CX Interconnect Write_Phase](./figures/cx_interconnect_write_phase.png)
 
-🖼️ *Figure 2: CX Interconnect Architecture*  
-![CX Interconnect Diagram](./figures/cx_interconnect.png)
+### - Read Phase
+The Read phase of the interconnect contains the mixer, evaluator, and error handling unit 
+*Figure 2: CX Interconnect Write Phase*  
+![CX Interconnect Read_Phase](./figures/cx_interconnect_read_phase.png)
 
 ---
 
