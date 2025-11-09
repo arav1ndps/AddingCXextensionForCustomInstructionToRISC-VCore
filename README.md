@@ -24,12 +24,12 @@ For detailed information about the CX specification, please refer to:
 
 ## Implemented Functions
 
-In this work, following functions are implemented
--Interface handling the execution of a custom function in the RISC-V core
--Interconnect for the selection of CX Units.
--FFT and CORDIC IP cores for the acceleration
--Wrapper modules for the accelerators
--MicroBlaze-V software support for executing custom instructions
+In this work, the following functions are implemented
+-**Interface handling the execution of a custom function in the RISC-V core.**
+-**Interconnect for the selection of CX Units**.
+-**FFT and CORDIC IP cores for the acceleration**.
+-**Wrapper modules for the accelerators**.
+-**MicroBlaze-V software support for executing custom instructions**.
 
 
 ## Future Work
