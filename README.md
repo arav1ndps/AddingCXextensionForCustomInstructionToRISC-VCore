@@ -1,4 +1,4 @@
-# Adding CX extension for Custom Instruction to RISC-VCore
+# Adding CX extension for Custom Instruction to RISC-V Core
 **Master’s Thesis Project – Chalmers University of Technology, MPEES**
 
 ## Overview
@@ -44,7 +44,7 @@ The current CX extension in the **MicroBlaze-V** core supports FFT acceleration 
 - **Vivado Wrapper Function Integration:**  
   Predefine and package the **wrapper module functions** within **Xilinx Vivado**, enabling users to easily instantiate and connect independent accelerators to the MicroBlaze-V core through the CX interface.
 - **Extended Accelerator Library:**  
-  Support for various reusable accelerator functions.
+  Support for various reusable accelerator functions. 
 - **Automation & Toolflow Support:**  
   Integrate automation scripts for Vivado to streamline accelerator generation, mapping, and verification directly from a graphical or command-line interface.
 
