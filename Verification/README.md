@@ -4,7 +4,7 @@ A comprehensive **top-level testbench** was developed for the **functional verif
 The verification environment was designed to accurately replicate the behavior of the **software layer**, effectively simulating how the MicroBlaze-V software libraries issue CX-based custom instructions.
 
 
-![test_benchflow](./figures/test_bench.png)
+![test_bench_flow](./figures/test_bench.png)
 
 ### Testbench Design
 
