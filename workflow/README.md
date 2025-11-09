@@ -46,12 +46,6 @@ This module is responsible for the execution of a custom instruction
 
 Inorder to connect multiple accelerators to the MicroBlaze, Interconnect module has been defined
 
-
-## 3 — Verification using Assertion-Based Testbench
-
-Use the top-level testbench in [verification/top](./verification/top/) with assertions defined in [verification/assertions](./verification/assertions/).  
-This validates handshake protocols, CSR updates, and accelerator responses using assertion-based verification techniques.
-
 ---
 
 ## 7 — Top-Level Testbench Integration
@@ -61,12 +55,24 @@ It includes stimulus generation, DUT integration, and self-checking result compa
 
 ---
 
-## 8 — MicroBlaze-V Pipeline Modifications
+## 8 — MicroBlaze-V Modifications
 
-Implement the instruction decode and pipeline stalling logic as described in [microblaze/pipeline](./microblaze/pipeline/).  
-These changes ensure that the CX interface can safely pause instruction flow during accelerator execution.
+Implemented modifications to perform the following functions to MicroBlaze-V 
+-CSR definitions (CX_status, CX_mcx_selector)
+-Instruction decode
+-Enable CX execution
+-Pipeline stall
+-Result write-back
 
 ---
+
+## 9 — Software Library definitions:
+
+The custom CX instructions used in this project were implemented using **GCC inline assembly macros**.  
+These macros provide a software abstraction layer that allows C programs to invoke the CX-based hardware accelerators directly through instruction-level encoding.
+The macros serve two main purposes:
+- To **encode custom instructions** following the CX specification format.  
+- To provide a **high-level software interface** that allows programmers to execute hardware accelerators from C without modifying compiler internals.
 
 ## 9 — System Integration in Vivado
 
