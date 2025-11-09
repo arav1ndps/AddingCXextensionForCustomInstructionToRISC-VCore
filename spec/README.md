@@ -1,59 +1,84 @@
-# Adding CX extension for Custom Instruction to RISC-VCore
-**Master’s Thesis Project – Chalmers University of Technology, MPEES**
+# RISC-V Composable Custom Extensions (CX) Specification
 
-## Overview
+## 📘 Overview
 
-This work presents the **design and implementation of a Composable Extension (CX)** framework for integrating **custom instructions** into the **MicroBlaze-V** core (soft-core). 
-The work demonstrates how the CX interface enables seamless integration of user-defined hardware accelerators into a RISC-V core architecture to enhance performance for compute-intensive applications.
+This repository provides a detailed overview of the **RISC-V Composable Custom Extensions (CX)** specification — a framework that defines hardware-software and hardware-hardware interfaces, enabling flexible integration of independently developed **custom instruction extensions** within RISC-V processors.
 
-In this implementation, pre-existing **Xilinx IP cores** were employed as hardware accelerators and tested on **Field-Programmable Gate Array (FPGA)**. To assess the system’s efficiency, equivalent accelerator functions were also implemented in **C software** and executed on the same MicroBlaze-V core without extension.  
+Composable Custom Extensions introduce a unified mechanism to **extend the RISC-V ISA** with user-defined hardware accelerators and software libraries, while preserving interoperability, scalability, and forward compatibility.  
 
-> **Note:**  
-> This repository does not contain the source code, as it is the **intellectual property of AMD**.  
-> However, it provides a detailed overview of the **design methodology**, **implementation process**, and **evaluation results** to illustrate how the project was conducted and verified.
+The specification defines how to integrate diverse **Composable Extension Units (CXUs)**, **libraries**, and **software runtimes** into a cohesive system that allows developers to rapidly prototype and deploy hardware-accelerated compute functions.
 
-##  Specification
+---
 
-This work follows the **Composable Custom Extension (CX)** specifications defined by the **RISC-V community** and standards of custom instructions execution in the RISC-V ISA. 
+## 🧩 Key Concepts
 
-This specification enables unlimited, independent, efficient, and robust composition of diverse RISC-V composable extensions, hardware composable extension units (CXUs), and software libraries.
+- **Composable Extension (CX):**  
+  A fixed, named set of custom functions and control/status registers (CSRs), which may be stateless or stateful.
 
-For detailed information about the CX specification, please refer to:
-- *RISC-V Composable Custom Extension (CX) Specification* — available in the project documentation.  
-- **Gray Research GitHub Repository:** [https://github.com/grayresearch](https://github.com/grayresearch) — containing reference implementations, testbenches, and CX interface documentation.
+- **Composable Extension Unit (CXU):**  
+  A hardware unit that implements one or more CXs. It communicates with the CPU through a standardized logic interface (CXU-LI).
 
-## Implemented Functions
+- **CXU Logic Interface (CXU-LI):**  
+  Defines the **hardware-to-hardware signaling protocol** between CPUs and CXUs, supporting fixed, variable, and reordering latency accelerators.
 
-In this work, the following functions are implemented
--**Interface handling the execution of a custom function in the RISC-V core.**
--**Interconnect for the selection of CX Units**.
--**FFT and CORDIC IP cores for the acceleration**.
--**Wrapper modules for the accelerators**.
--**MicroBlaze-V software support for executing custom instructions**.
+- **CX-ISA:**  
+  The composable ISA extension introduces standard CSRs such as:
+  - `mcx_selector` – selects the current CXU and state context  
+  - `cx_status` – accumulates CXU error and execution status  
+  - `mcx_table`, `cx_index` – access control and indexing mechanisms  
 
+- **CX-API & CX-ABI:**  
+  Define software-level interfaces for managing CX interactions, instruction selection, and context handling at runtime and binary levels.
 
-## Future Work
+- **IStateContext:**  
+  A standardized extension that defines functions to read/write status and state context for serializable, stateful composable extensions.
 
-The current CX extension in the **MicroBlaze-V** core supports FFT acceleration with specific software-defined execution constraints.  
+---
 
-- **Hardware-Managed Instruction Sequencing:**  
-  Implement hardware-level control logic to automatically handle the chronological execution order (`configuration → input → output`), removing constraints in the software.
-- **Standalone Interconnect IP Core:**  
-  Develop and release the **interconnect block** as an independent **IP core** with peripheral support for MicroBlaze-V.  
-  This would enable seamless interfacing of multiple accelerators through a standardised extension port.
-- **Vivado Wrapper Function Integration:**  
-  Predefine and package the **wrapper module functions** within **Xilinx Vivado**, enabling users to easily instantiate and connect independent accelerators to the MicroBlaze-V core through the CX interface.
-- **Extended Accelerator Library:**  
-  Support for various reusable accelerator functions.
-- **Automation & Toolflow Support:**  
-  Integrate automation scripts for Vivado to streamline accelerator generation, mapping, and verification directly from a graphical or command-line interface.
+## ⚙️ Features and Scope
 
-These enhancements will strengthen the CX ecosystem for MicroBlaze-V, providing a **fully composable, user-friendly, and scalable acceleration framework** for future RISC-V-based SoC designs.
+- Enables seamless composition of hardware and software extensions across CPUs, accelerators, and libraries.  
+- Provides **collision-free multiplexing** of custom instructions and CSRs, removing dependency on central opcode allocation.  
+- Supports **stateful and stateless** accelerators, each operating in isolated and composable contexts.  
+- Designed for scalability — from **microcontrollers** to **multicore Linux-class systems**.  
+- Defines uniform metadata and manifest files to enable **automatic system composition** by design tools.  
 
+---
 
+## 🧠 Design Philosophy
 
+The CX framework promotes **open, modular, and interoperable design** principles by allowing independent teams to:
 
+- Define new extensions without central coordination.  
+- Reuse existing CXUs and libraries across different CPU architectures.  
+- Achieve robust, predictable system integration via **strict isolation** of extension state and behavior.  
+- Build systems that evolve seamlessly through **versioned metadata** and extensible specifications.  
 
+---
 
+## 🧾 Specification Details
 
+This repository references the draft document:  
+**_Draft Proposed RISC-V Composable Custom Extensions Specification (v0.95.240403)_**,  
+authored by Jan Gray and contributors.
 
+Key sections include:
+- Introduction to the CX ecosystem  
+- CX hardware-software interface definitions  
+- CXU Logic Interface (CXU-LI)  
+- CX Application Binary Interface (CX-ABI)  
+- CX Metadata and System Composition  
+- Versioning and future direction  
+
+Full details are available in the provided `spec.pdf`.  
+
+For upstream updates and discussions, see the original **Gray Research** GitHub repository:  
+🔗 [https://github.com/grayresearch](https://github.com/grayresearch)
+
+---
+
+## 📄 License
+
+This work is distributed under the **Apache License, Version 2.0**.  
+You may obtain a copy at:  
+[www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
