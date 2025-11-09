@@ -1,8 +1,6 @@
-# Project README — CX Integration for MicroBlaze-V (No source code included)
+# CX extension Workflow
 
 > **Important note:** This repository does **not** contain AMD proprietary source code. It documents the full **methodology**, configuration files, scripts, IP wrappers, testbenches, and build artifacts (ELF files) used to integrate a **Composable Extension (CX)** into the **MicroBlaze-V** RISC-V core. The IP sources and MicroBlaze-V core modifications are AMD/third-party intellectual property and are therefore **not included** here. Where required, pointers to repository folders and configuration artifacts are provided.
-
-This README describes, in detail and step-by-step, how to reproduce the project environment, how each component is organized in this repository, and the verification & build flow used to validate and generate the final system (including ELF files). No figures or images are included — the text is written to be professional, self-contained, and reproducible.
 
 ---
 
@@ -33,48 +31,23 @@ This README describes, in detail and step-by-step, how to reproduce the project 
 > If your repository structure differs, adapt the folder names above to match your tree.
 
 ---
+## 1 - Define the specifications
+The work follows specifications for the execution of the Custom Instruction defined by the RISC-V community. As the specifications were still being updated during this thesis period, we have made slight modifications to the spec documents.  
 
-## 1 — Configure the IP core
+## 2 — Design
+CX extension was demonstrated using CORDIC and FFT IP cores from Xilinx's Library. The configurations for the IP cores can be found in (./IP_configuration/) folder.
 
-Configure the accelerator IPs (FFT, CORDIC, etc.) as described in the [IP_configuration](./IP_configuration/) folder.  
-Follow the parameter files and Vivado scripts located there to instantiate the IPs.
+ The Advanced eXtensible Interface (AXI) Stream protocol has been implemented for the high-speed and efficient communication of data between the processor and accelerators. 
 
----
-
-## 2 — Create the wrapper functions
-
-Create CX-compliant wrappers for each accelerator using the modules and documentation in the [wrapper](./wrapper/) folder.  
-These wrappers define the translation logic between AXI-Stream and accelerator-specific interfaces.
-
----
-
-## 3 — Implement the CX interface in MicroBlaze-V
+CX-compliant wrappers for each IP core to perform CX checks and translation logic. The[wrapper](./wrapper/) folder
 
 Add the CX front-end and signal management as described in [microblaze/CX_interface](./microblaze/CX_interface/).  
-This integrates the CX request and response logic into the decode/execute pipeline stages.
+This module is responsible for the execution of a custom instruction 
 
----
+Inorder to connect multiple accelerators to the MicroBlaze, Interconnect module has been defined
 
-## 4 — Implement the Interconnect
 
-Develop the AXI-Stream based interconnect from [interconnect](./interconnect/), connecting multiple accelerators to the CX interface.
-
----
-
-## 5 — AXI Connectivity
-
-All components communicate via AXI-Stream channels:  
-
-```
-MicroBlaze (CX_interface) --[CX_M_AXIS]--> Interconnect Router --> Wrapper(s) --> IP Core
-MicroBlaze (CX_interface) <--[CX_S_AXIS]-- Interconnect Router <-- Wrapper(s) <-- IP Core
-```
-
-Ensure clock and data-width consistency across all connected components.
-
----
-
-## 6 — Verification using Assertion-Based Testbench
+## 3 — Verification using Assertion-Based Testbench
 
 Use the top-level testbench in [verification/top](./verification/top/) with assertions defined in [verification/assertions](./verification/assertions/).  
 This validates handshake protocols, CSR updates, and accelerator responses using assertion-based verification techniques.
