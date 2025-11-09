@@ -38,17 +38,13 @@ The current CX extension in the **MicroBlaze-V** core supports FFT acceleration 
 
 - **Hardware-Managed Instruction Sequencing:**  
   Implement hardware-level control logic to automatically handle the chronological execution order (`configuration → input → output`), removing constraints in the software.
-
 - **Standalone Interconnect IP Core:**  
   Develop and release the **interconnect block** as an independent **IP core** with peripheral support for MicroBlaze-V.  
   This would enable seamless interfacing of multiple accelerators through a standardised extension port.
-
 - **Vivado Wrapper Function Integration:**  
   Predefine and package the **wrapper module functions** within **Xilinx Vivado**, enabling users to easily instantiate and connect independent accelerators to the MicroBlaze-V core through the CX interface.
-
 - **Extended Accelerator Library:**  
   Support for various reusable accelerator functions.
-
 - **Automation & Toolflow Support:**  
   Integrate automation scripts for Vivado to streamline accelerator generation, mapping, and verification directly from a graphical or command-line interface.
 
