@@ -3,9 +3,6 @@
 A comprehensive **top-level testbench** was developed for the **functional verification** of the CX interface, the interconnect architecture, and the integrated accelerator modules.  
 The verification environment was designed to accurately replicate the behavior of the **software layer**, effectively simulating how the MicroBlaze-V software libraries issue CX-based custom instructions.
 
-
-![test_bench_flow](./figures/test_bench.png)
-
 ### Testbench Design
 
 The testbench emulates the software driver behavior by generating and sending instruction streams to the CX interface.  
@@ -53,6 +50,8 @@ Upon completion of simulations:
 - The automated framework demonstrated reliable validation of new CX instruction integrations with minimal manual intervention.
 
 ---
+
+![test_bench_flow](./figures/test_bench.png)
 
 **Summary:**  
 The verification workflow establishes a robust and automated framework to validate the CX interface integration.  
