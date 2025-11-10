@@ -52,7 +52,7 @@ The write phase of the interconnect contains the broadcaster, error handling uni
 The Read phase of the interconnect contains the mixer, evaluator, and error handling unit.
 - Mixer: Manages the AXI stream containing the result and the status to be updated in the CSR (data path).
 - Evaluator: Manages Write-back to the processor (control path).
-- 
+  
 *CX Interconnect Read Phase*  
 ![CX Interconnect Read_Phase](./figures/cx_interconnect_read_phase.png)
 
