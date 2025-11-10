@@ -8,7 +8,7 @@ It provides a detailed description of each hardware component, its purpose, and 
 The CX framework extends the MicroBlaze-V processor by introducing a **Composable Extension Interface** that allows the integration of multiple hardware accelerators.  
 It enables the CPU to issue **custom instructions** through the CX interface, which are routed to the appropriate **Composable Extension Unit (CXU)** via a shared **AXI4-Stream interconnect**.
 
-🖼️ *Figure 1: Top-Level CX Integration Architecture*  
+Top-Level CX Integration Architecture*  
 ![CX System Architecture](./figures/cx_system_architecture.png)
 
 **Main design modules:**
@@ -22,7 +22,7 @@ It enables the CPU to issue **custom instructions** through the CX interface, wh
 
 ## 2 - CX Interface
 The CX interface designed in MicroBlaze-V handles the execution of custom instructions through a series of the following operations
-*Figure 2: CX interface functions*
+*CX interface functions*
 ![cx_interface_flow](./figures/cx_interface_flow.png)
 
 ### **Functionality**
@@ -41,18 +41,24 @@ The CX interface designed in MicroBlaze-V handles the execution of custom instru
 The interconnect has been designed to act as a bridge between the MicroBlaze-V core and the accelerators. Interconnect has two phases of execution: the write phase and the read phase.
 
 ### - Write Phase
-The write phase of the interconnect contains the broadcaster, error handling unit, and CXU Error accumulator 
-*Figure 2: CX Interconnect Write Phase*  
+The write phase of the interconnect contains the broadcaster, error handling unit, and CXU Error accumulator
+- Broadcaster: Manages the transfer of AXI-stream from MicroBlaze-V to the accelerators
+- Error handling unit: Manages the CXU error in case if there has been a mismatch in the CXU identifiers or if the accelerator is missing
+
+*CX Interconnect Write Phase*  
 ![CX Interconnect Write_Phase](./figures/cx_interconnect_write_phase.png)
 
 ### - Read Phase
-The Read phase of the interconnect contains the mixer, evaluator, and error handling unit 
-*Figure 2: CX Interconnect Write Phase*  
+The Read phase of the interconnect contains the mixer, evaluator, and error handling unit.
+- Mixer: Manages the AXI stream containing the result and the status to be updated in the CSR (data path).
+- Evaluator: Manages Write-back to the processor (control path).
+- 
+*CX Interconnect Read Phase*  
 ![CX Interconnect Read_Phase](./figures/cx_interconnect_read_phase.png)
 
 ---
 
-## ⚙️ 4️⃣ Wrapper Modules
+##Wrapper Modules
 
 **Location:** `wrapper/`
 
