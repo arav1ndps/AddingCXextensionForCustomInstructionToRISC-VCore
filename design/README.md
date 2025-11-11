@@ -58,26 +58,106 @@ The Read phase of the interconnect contains the mixer, evaluator, and error hand
 
 ---
 
-##Wrapper Modules
+### - IP core configuration
 
-**Location:** `wrapper/`
+Two existing Xilinx IP cores were integrated as accelerators:
+- **FFT Core** — computes Fast Fourier Transform.
+- **CORDIC Core** — performs trigonometric and vector operations.
+  
+> **Note:**  
+> In our system, IP cores function as independent accelerator units, each assigned a unique identifier. The execution of every IP core is controlled through distinct instruction formats.
 
-Each accelerator is enclosed in a **wrapper module** that adapts the accelerator’s native interface to the CX framework.
+### **CORDIC**
+ The CORDIC IP core can be used to implement many different mathematical func
+tions, including trigonometric functions, square root, hyperbolic and also rectangular
+polar conversions. The respective function can be configured in the IP core and the
+ operands can be selected accordingly, whether it is a phase or Cartesian operand.
+The detailed information can be found in AMD's official documentation: 
+ 
+*CORDIC PIN diagram*  
+![CORDIC pin Diagram](./figures/cordic_pin.png)
 
-### **Functionality**
-- Acts as a protocol converter between **AXI4-Stream** and **accelerator-specific I/O**.
-- Manages signal packing/unpacking of `CF_ID`, data operands, and control words.
-- Synchronizes the accelerator operation with `TVALID`, `TREADY`, and `TLAST`.
-- Optionally contains configuration registers for runtime parameterization.
 
-🖼️ *Figure 3: Wrapper Module Interface*  
-![CX Wrapper Diagram](./figures/cx_wrapper.png)
+#### CORDIC IP Core Configuration Comparison
+
+| Parameter                             | Vector Configuration | Trigonometric Configuration |
+|--------------------------------------|-----------------------|-----------------------------|
+| Function                              | Vector                | Trigonometric               |
+| Input Width                           | 16 bits               | 16 bits                     |
+| Phase Width                           | 16 bits               | 16 bits                     |
+| Output Width                          | 16 bits               | 16 bits                     |
+| Data Format                           | Signed Fractional     | Signed Fractional           |
+| Rounding Mode                         | Truncate              | Truncate                    |
+| Iterations                            | 16                    | 16                          |
+| Pipelining                            | Maximum               | Maximum                     |
+| Scale Compensation                    | Enabled               | Enabled                     |
+| Angle Format                          | Radians               | Radians                     |
+| Cordic Function Type                  | Vector                | Rotation                    |
+| Implementation Architecture            | Parallel              | Parallel                    |
+| Phase Quantization                    | Enabled               | Enabled                     |
+| Latency                               | 16 cycles             | 16 cycles                   |
+
+### **FFT**
+
+The FFT IP core was configured to have independent stages to configure, write, and read.
+Each stage will be managed by unique instruction formats with the same CXU ID.
+
+#### FFT IP Core Configuration:
+
+| Parameter                              | FFT Configuration Value     |
+|---------------------------------------|-----------------------------|
+| Function                              | FFT                         |
+| Architecture Type                     | Burst I/O                   |
+| Implementation Architecture            | Radix-2                     |
+| Transform Length                      | 256                         |
+| Number of Stages                      | 8                           |
+| Input Width                           | 16 bits                     |
+| Output Width                          | 16 bits                     |
+| Phase Factor Width                    | 16 bits                     |
+| Data Format                           | Signed Fractional           |
+| Scaling Option                        | Scaled                      |
+| Rounding Mode                         | Truncate                    |
+| Butterfly Type                        | Radix-2                     |
+| Scale Compensation                    | Enabled                     |
+| Phase Quantization                    | Enabled                     |
+| Latency                               | Dependent on 8 pipeline stages |
+| Throughput                            | Moderate                    |
+| Resource Utilization                  | Medium                      |
+
+#### FFT Timing Diagram:
+![FFT Timing Diagram](./figures/fft_timing.png)
+
+## IP core wrapper
+
+ ### **Wrapper Module Functions**
+
+- Manages the execution of custom instructions for each IP core.  
+- Samples and verifies incoming data (`tvalid`, `tdata`) for integrity.  
+- Validates `CXU_ID` and determines **CXU hit** or **mismatch**.  
+- Forwards parameters to the IP core after **CF_ID** and **operand** checks.  
+- Handles errors and sends appropriate responses to **MicroBlaze**.  
+- Waits for the IP core to complete computation and encodes the result with status.  
+- Connects IP cores via **AXI master/slave interfaces** to manage handshake and data signals.  
+- Supports **write-back** operations for instructions expecting a result.  
+- Skips result write-back for instructions not requiring output.  
+- Accumulates and reports **CF** and **operand error** statuses during read operations.  
+
+![Wrapper Block Diagram](./figures/wrapper_block.png)
+
+### **CORDIC IP Wrapper Functions**
+- Executes **read instructions** from MicroBlaze.  
+- Waits for the IP core to complete computation.  
+- Collects and returns the computed result.  
 
 ---
 
-## 🧮 5️⃣ Accelerator Modules
+### **FFT IP Wrapper Functions**
+- Manages three distinct phases of FFT operation.  
+- Includes **additional control logic** to handle these phases efficiently.  
+- Performs extra functions to coordinate data flow and synchronization between phases.  
+- Ensures correct sequencing of input, computation, and output stages.  
 
-**Location:** `accelerators/`
+![FFT Wrapper Diagram](./figures/fft_wrapper.png)
 
 Two existing Xilinx IP cores were integrated as accelerators:
 - **FFT Core** — computes Fast Fourier Transform.
