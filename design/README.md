@@ -186,7 +186,9 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 - Performs extra functions to coordinate data flow and synchronization between phases.  
 - Ensures correct sequencing of input, computation, and output stages.  
 
+*FFT Wrapper:*
 ![FFT Wrapper Diagram](./figures/fft_wrapper.png)
+
 
 ---
 
