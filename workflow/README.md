@@ -75,19 +75,6 @@ The macros serve two main purposes:
 - To **encode custom instructions** following the CX specification format.  
 - To provide a **high-level software interface** that allows programmers to execute hardware accelerators from C without modifying compiler internals.
 
-## 6 — System Integration in Vivado
+## 6 - Vivado-Vitis flow to implement the design on FPGA:
 
-Build the complete system using the MicroBlaze support in Vivado, following scripts in the [vivado](./vivado/) folder.  
-This includes resets, clock generation, and memory configuration files required to implement the final system.
-
----
-
-## 7 — Software and Vitis Integration
-
-Export the hardware platform to Vitis and integrate the software layer from [software](./software/).  
-Define instruction macros, add CX instruction support, and compile C applications that communicate with hardware accelerators.  
-The ELF generation process is documented in the [process](./process/) folder.
-
----
-
-© 2025 — CX Integration for MicroBlaze-V | Chalmers University of Technology & AMD Collaboration
+Using AMD's EDA support for MicroBlaze-V, the entire design has been tested on the KCU105 board. This involves software definition in Vitis and hardware design in Vivado. The performance of the design was then evaluated and compared against the corresponding C reference models.
