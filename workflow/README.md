@@ -38,7 +38,7 @@ The work follows specifications for the execution of the Custom Instruction defi
 
 CX extension was demonstrated using CORDIC and FFT IP cores from Xilinx's Library. These IP cores were configured to manage the instruction-based data flow. In order to manage the data and verify the integrity, CX-compliant wrapper modules were defined.
 
-The Advanced eXtensible Interface (AXI) Stream protocol has been implemented for the high-speed and efficient communication of data between the processor and accelerators.![AXI protocol]() 
+The Advanced eXtensible Interface (AXI) Stream protocol has been implemented for the high-speed and efficient communication of data between the processor and accelerators.![AXI protocol](Documents/IHI0022L_amba_axi_protocol_spec.pdf) 
 
 Added an interface and the necessary modifications to MicroBlaze-V to support CX extension. These modifications include CSR definitions and pipeline changes. 
 
