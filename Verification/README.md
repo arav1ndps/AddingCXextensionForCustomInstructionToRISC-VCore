@@ -51,6 +51,7 @@ Upon completion of simulations:
 
 ---
 *Verification flow:*
+
 ![test_bench_flow](./figures/test_bench.png)
 
 **Summary:**  
