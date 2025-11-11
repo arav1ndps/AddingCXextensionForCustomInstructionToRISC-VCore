@@ -12,11 +12,10 @@ It enables the CPU to issue **custom instructions** through the CX interface, wh
 ![CX System Architecture](./figures/cx_system_architecture.png)
 
 **Main design modules:**
-- CX Interface (integrated into MicroBlaze-V)
+- CX Interface and CSRs (integrated into MicroBlaze-V)
 - CX Interconnect
 - Wrapper modules for accelerators
 - Hardware accelerators (FFT, CORDIC)
-- CSR extensions for CX configuration and status
 
 ---
 
@@ -30,11 +29,11 @@ In order to support the CX extension, MicroBlaze-V was modified with an interfac
 ### CX-Interface
 The CX interface designed in MicroBlaze-V handles the execution of custom instructions through a series of the following operations
 
-*CX interface functions*
+*CX interface functions:*
 
 ![cx_interface_flow](./figures/cx_interface_flow.png)
 
-### **Functionality**
+#### **Functionality**
 - Version Check: Ensures the MicroBlaze-V version matches the version of the CX extension
 - Data Ending: Encodes CXU_ID, CF_ID, and operand values for the AXI master payload.
 - Transmission of AXI-Stream, stall the pipeline in case of write-back, else continue the pipeline 
@@ -43,13 +42,13 @@ The CX interface designed in MicroBlaze-V handles the execution of custom instru
 
 ### CSR: Control and Status Register
 
-### **mxc_selector (CSR Address: 0xBC0)**
+#### **mxc_selector (CSR Address: 0xBC0)**
 The `mcx_selector` CSR enables **Composable Extension (CX) multiplexing**, allowing developers to select the corresponding **Composable Extension Unit (CXU)** required to execute a particular custom instruction. 
 
 *Instruction format:*
 ![mcx_selector](./figures/mcx_selector.png)
 
-### ** cx_status (CSR Address: 0xBC1)**
+#### ** cx_status (CSR Address: 0xBC1)**
 The `cx_status` CSR is used to **accumulate CXU error flags** and monitor the status of accelerator operations.  
 
 *Instruction format:*
@@ -68,7 +67,7 @@ The `cx_status` CSR is used to **accumulate CXU error flags** and monitor the st
 ## 3 - CX Interconnect
 The interconnect has been designed to act as a bridge between the MicroBlaze-V core and the accelerators. Interconnect has two phases of execution: the write phase and the read phase.
 
-### - Write Phase
+#### **Write Phase**
 The write phase of the interconnect contains the broadcaster, error handling unit, and CXU Error accumulator
 - Broadcaster: Manages the transfer of AXI-stream from MicroBlaze-V to the accelerators
 - Error handling unit: Manages the CXU error in case of mismatch in the CXU identifiers or if the accelerator is missing
@@ -77,7 +76,7 @@ The write phase of the interconnect contains the broadcaster, error handling uni
 
 ![CX Interconnect Write_Phase](./figures/cx_interconnect_write_phase.png)
 
-### - Read Phase
+#### **Read Phase**
 The Read phase of the interconnect contains the mixer, evaluator, and error handling unit.
 - Mixer: Manages the AXI stream containing the result and the status to be updated in the CSR (data path).
 - Evaluator: Manages Write-back to the processor (control path).
@@ -88,7 +87,7 @@ The Read phase of the interconnect contains the mixer, evaluator, and error hand
 
 ---
 
-### - IP core configuration
+## 4 - IP core configuration
 Two existing Xilinx IP cores were integrated as accelerators:
 - **FFT Core** — computes Fast Fourier Transform.
 - **CORDIC Core** — performs trigonometric and vector operations.
@@ -108,7 +107,7 @@ The detailed information can be found in AMD's official documentation:
 ![CORDIC pin Diagram](./figures/cordic_pin.png)
 
 
-#### CORDIC IP Core Configuration Comparison
+#### CORDIC IP Core Configuration Comparison:
 
 | Parameter                             | Vector Configuration | Trigonometric Configuration |
 |--------------------------------------|-----------------------|-----------------------------|
@@ -158,10 +157,9 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 
 ![FFT Timing Diagram](./figures/fft_timing.png)
 
-## IP core wrapper
+## 5 - IP Core Wrapper
 
  ### **Wrapper Module Functions**
-
 - Manages the execution of custom instructions for each IP core.  
 - Samples and verifies incoming data (`tvalid`, `tdata`) for integrity.  
 - Validates `CXU_ID` and determines **CXU hit** or **mismatch**.  
@@ -173,7 +171,7 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 - Skips result write-back for instructions not requiring output.  
 - Accumulates and reports **CF** and **operand error** statuses during read operations.
 
-*Wrapper functions*
+*Wrapper module:*
 
 ![Wrapper Block Diagram](./figures/wrapper_block.png)
 
@@ -181,8 +179,6 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 - Executes **read instructions** from MicroBlaze.  
 - Waits for the IP core to complete computation.  
 - Collects and returns the computed result.  
-
----
 
 ### **FFT IP Wrapper Functions**
 - Manages three distinct phases of FFT operation.  
@@ -192,7 +188,9 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 
 ![FFT Wrapper Diagram](./figures/fft_wrapper.png)
 
-## Summary
+---
+
+## 6 - Summary
 
 The design successfully extends MicroBlaze-V with a **scalable CX interface** that allows seamless integration of multiple accelerators.  
 Through AXI4-Stream interconnect and standardised CSR mapping, the framework achieves:
@@ -204,4 +202,3 @@ This framework serves as a foundation for **future RISC-V SoC designs** supporti
 
 ---
 
-© 2025 — CX Integration for MicroBlaze-V | Chalmers University of Technology & AMD Collaboration
