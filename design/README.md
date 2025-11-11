@@ -20,7 +20,14 @@ It enables the CPU to issue **custom instructions** through the CX interface, wh
 
 ---
 
-## 2 - CX Interface
+## 2 - MicroBlaze-V
+In order to support the CX extension, MicroBlaze-V was modified with an interface for custom instruction execution, additional CSRs and pipeline modifications.
+
+*Updated MicroBlaze-V architecture supporting CX extension:*
+
+![MicroBlaze_V_arc](./figures/microblaze_v_arc.png)
+
+### CX-Interface
 The CX interface designed in MicroBlaze-V handles the execution of custom instructions through a series of the following operations
 
 *CX interface functions*
@@ -34,9 +41,31 @@ The CX interface designed in MicroBlaze-V handles the execution of custom instru
 - Receives the response and decodes the result and status of execution.
 - Updates the registers and the CSRs
 
+### CSR: Control and Status Register
+
+### **mxc_selector (CSR Address: 0xBC0)**
+The `mcx_selector` CSR enables **Composable Extension (CX) multiplexing**, allowing developers to select the corresponding **Composable Extension Unit (CXU)** required to execute a particular custom instruction. 
+
+*Instruction format:*
+![mcx_selector](./figures/mcx_selector.png)
+
+### ** cx_status (CSR Address: 0xBC1)**
+The `cx_status` CSR is used to **accumulate CXU error flags** and monitor the status of accelerator operations.  
+
+*Instruction format:*
+![cx_status](./figures/cx_status.png)
+
+- IV: Invalid CX version error
+- IC: Invalid CXU_ID error
+- IS: Invalid STATE_ID error
+- OF: State is off error
+- IF: Invalid CF_ID error
+- OP: CXU operation error
+- CU: Custom CXU operation error
+
 ---
 
-## - CX Interconnect
+## 3 - CX Interconnect
 The interconnect has been designed to act as a bridge between the MicroBlaze-V core and the accelerators. Interconnect has two phases of execution: the write phase and the read phase.
 
 ### - Write Phase
@@ -163,96 +192,13 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 
 ![FFT Wrapper Diagram](./figures/fft_wrapper.png)
 
-Two existing Xilinx IP cores were integrated as accelerators:
-- **FFT Core** — computes Fast Fourier Transform.
-- **CORDIC Core** — performs trigonometric and vector operations.
-
-### **Integration Process**
-- Instantiated directly from Vivado IP catalog.
-- Wrapped using CX-compliant interfaces for operand and control data.
-- Configured with bit-width and latency parameters to match MicroBlaze-V datapath.
-
-**Key Behavior:**
-- Accelerator operation begins when CX instruction is issued.
-- Results are sent back through the S_AXIS response channel.
-- Latency determined by the internal pipeline of each accelerator.
-
-🖼️ *Figure 4: Accelerator Integration Example*  
-![CX Accelerator Integration](./figures/cx_accelerator.png)
-
----
-
-## 🧱 6️⃣ MicroBlaze-V Pipeline Modifications
-
-**Location:** `microblaze/pipeline/`
-
-The **decode and execute stages** of the MicroBlaze-V pipeline were modified to recognize and handle CX instructions.
-
-### **Changes made**
-- Added a **CX decode unit** to detect custom instruction opcodes.
-- Introduced a **stall mechanism** during accelerator execution.
-- Updated **CSR register set** (`mcx_selector`, `cx_status`) for tracking accelerator state.
-- Integrated feedback logic to resume execution after accelerator completion.
-
-🖼️ *Figure 5: MicroBlaze-V CX Pipeline Extension*  
-![CX Pipeline Diagram](./figures/cx_pipeline.png)
-
----
-
-## 🧰 7️⃣ Control and Status Registers (CSR)
-
-New CSRs were introduced to manage and monitor CX operations:
-
-| CSR Name | Description |
-|-----------|--------------|
-| `mcx_selector` | Selects current CXU and operation context |
-| `cx_status` | Holds status flags and error codes |
-| `mcx_table` | Stores CXU configuration metadata |
-| `cx_index` | Tracks accelerator instruction index |
-
-These CSRs provide the software with direct access to the hardware extension status through Vitis runtime.
-
----
-
-## 🔍 8️⃣ Verification Environment
-
-**Location:** `verification/`
-
-A **top-level testbench** was developed to verify the integration of:
-- CX interface
-- Interconnect
-- Wrapper modules
-- Accelerators
-
-### **Features**
-- Testbench emulates software instruction flow.
-- Test vectors generated using Python (`verification/scripts/`).
-- Self-checking system compares accelerator results with golden reference from IP testbench.
-- Assertions used to validate AXI protocol correctness.
-
-🖼️ *Figure 6: CX Verification Setup*  
-![CX Verification Diagram](./figures/cx_verification.png)
-
----
-
-## 🧪 9️⃣ Integration in Vivado and Vitis
-
-- Hardware synthesized and implemented in **Vivado**.  
-- Exported `.xsa` file imported into **Vitis** for C software development.  
-- ELF binaries generated to test CX instructions through C macros using GCC inline assembly.
-
-🖼️ *Figure 7: Vivado–Vitis Integration Flow*  
-![Vivado-Vitis Flow Diagram](./figures/vivado_vitis_flow.png)
-
----
-
-## ✅ Summary
+## Summary
 
 The design successfully extends MicroBlaze-V with a **scalable CX interface** that allows seamless integration of multiple accelerators.  
-Through AXI4-Stream interconnect and standardized CSR mapping, the framework achieves:
+Through AXI4-Stream interconnect and standardised CSR mapping, the framework achieves:
 - Modularity  
 - Scalability  
-- Low latency communication between CPU and accelerators  
+- Low-latency communication between CPU and accelerators  
 
 This framework serves as a foundation for **future RISC-V SoC designs** supporting composable hardware acceleration.
 
