@@ -8,7 +8,7 @@ It provides a detailed description of each hardware component, its purpose, and 
 The CX framework extends the MicroBlaze-V processor by introducing a **Composable Extension Interface** that allows the integration of multiple hardware accelerators.  
 It enables the CPU to issue **custom instructions** through the CX interface, which are routed to the appropriate **Composable Extension Unit (CXU)** via a shared **AXI4-Stream interconnect**.
 
-Top-Level CX Integration Architecture*  
+*Top-Level CX Integration Architecture*  
 ![CX System Architecture](./figures/cx_system_architecture.png)
 
 **Main design modules:**
@@ -22,7 +22,9 @@ Top-Level CX Integration Architecture*
 
 ## 2 - CX Interface
 The CX interface designed in MicroBlaze-V handles the execution of custom instructions through a series of the following operations
+
 *CX interface functions*
+
 ![cx_interface_flow](./figures/cx_interface_flow.png)
 
 ### **Functionality**
@@ -35,17 +37,15 @@ The CX interface designed in MicroBlaze-V handles the execution of custom instru
 ---
 
 ## - CX Interconnect
-
-**Location:** `interconnect/`
-
 The interconnect has been designed to act as a bridge between the MicroBlaze-V core and the accelerators. Interconnect has two phases of execution: the write phase and the read phase.
 
 ### - Write Phase
 The write phase of the interconnect contains the broadcaster, error handling unit, and CXU Error accumulator
 - Broadcaster: Manages the transfer of AXI-stream from MicroBlaze-V to the accelerators
-- Error handling unit: Manages the CXU error in case if there has been a mismatch in the CXU identifiers or if the accelerator is missing
+- Error handling unit: Manages the CXU error in case of mismatch in the CXU identifiers or if the accelerator is missing
 
-*CX Interconnect Write Phase*  
+*CX Interconnect Write Phase* 
+
 ![CX Interconnect Write_Phase](./figures/cx_interconnect_write_phase.png)
 
 ### - Read Phase
@@ -54,12 +54,12 @@ The Read phase of the interconnect contains the mixer, evaluator, and error hand
 - Evaluator: Manages Write-back to the processor (control path).
   
 *CX Interconnect Read Phase*  
+
 ![CX Interconnect Read_Phase](./figures/cx_interconnect_read_phase.png)
 
 ---
 
 ### - IP core configuration
-
 Two existing Xilinx IP cores were integrated as accelerators:
 - **FFT Core** — computes Fast Fourier Transform.
 - **CORDIC Core** — performs trigonometric and vector operations.
@@ -75,6 +75,7 @@ polar conversions. The respective function can be configured in the IP core and 
 The detailed information can be found in AMD's official documentation: 
  
 *CORDIC PIN diagram*  
+
 ![CORDIC pin Diagram](./figures/cordic_pin.png)
 
 
@@ -125,6 +126,7 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 | Resource Utilization                  | Medium                      |
 
 #### FFT Timing Diagram:
+
 ![FFT Timing Diagram](./figures/fft_timing.png)
 
 ## IP core wrapper
@@ -140,7 +142,9 @@ Each stage will be managed by unique instruction formats with the same CXU ID.
 - Connects IP cores via **AXI master/slave interfaces** to manage handshake and data signals.  
 - Supports **write-back** operations for instructions expecting a result.  
 - Skips result write-back for instructions not requiring output.  
-- Accumulates and reports **CF** and **operand error** statuses during read operations.  
+- Accumulates and reports **CF** and **operand error** statuses during read operations.
+
+*Wrapper functions*
 
 ![Wrapper Block Diagram](./figures/wrapper_block.png)
 
