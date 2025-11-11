@@ -50,7 +50,7 @@ Upon completion of simulations:
 - The automated framework demonstrated reliable validation of new CX instruction integrations with minimal manual intervention.
 
 ---
-
+*Verification flow:*
 ![test_bench_flow](./figures/test_bench.png)
 
 **Summary:**  
