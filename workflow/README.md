@@ -34,7 +34,7 @@
 ## 1 - Define the specifications
 The work follows specifications for the execution of the Custom Instruction defined by the RISC-V community. As the specifications were still being updated during this thesis period, we have made slight modifications to the spec documents.  
 
-## 2 — Design
+## 2 - Design
 CX extension was demonstrated using CORDIC and FFT IP cores from Xilinx's Library. The configurations for the IP cores can be found in (./IP_configuration/) folder.
 
  The Advanced eXtensible Interface (AXI) Stream protocol has been implemented for the high-speed and efficient communication of data between the processor and accelerators. 
@@ -48,14 +48,14 @@ Inorder to connect multiple accelerators to the MicroBlaze, Interconnect module 
 
 ---
 
-## 7 — Top-Level Testbench Integration
+## 3 - Top-Level Testbench Integration
 
-The overall testbench structure and simulation setup are provided in the [verification/top](./verification/top/) folder.  
+The overall testbench structure and simulation setup are provided in the [verification](./verification/) folder.  
 It includes stimulus generation, DUT integration, and self-checking result comparison.
 
 ---
 
-## 8 — MicroBlaze-V Modifications
+## 4 - MicroBlaze-V Modifications
 
 Implemented modifications to perform the following functions in MicroBlaze-V:<br>
 -CSR definitions (CX_status, CX_mcx_selector)
@@ -87,26 +87,6 @@ This includes resets, clock generation, and memory configuration files required 
 Export the hardware platform to Vitis and integrate the software layer from [software](./software/).  
 Define instruction macros, add CX instruction support, and compile C applications that communicate with hardware accelerators.  
 The ELF generation process is documented in the [process](./process/) folder.
-
----
-
-## 11 — ELF and Build Artifacts
-
-Generated ELF files and corresponding metadata are located under [build/elf](./build/elf/).  
-These files represent compiled software applications targeting the CX-extended MicroBlaze-V system.
-
----
-
-## 12 — Process and Reproduction
-
-A step-by-step guide to the complete implementation workflow, including hardware export, software build, and verification, is provided in the [process](./process/) folder.
-
----
-
-## 13 — Licensing and Restrictions
-
-This repository excludes all AMD/Xilinx proprietary IP and RTL source files.  
-It contains only configuration files, scripts, and methodological documentation necessary for reproducing the process if you have licensed access to the corresponding IP.
 
 ---
 
