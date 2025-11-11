@@ -35,22 +35,22 @@
 The work follows specifications for the execution of the Custom Instruction defined by the RISC-V community. As the specifications were still being updated during this thesis period, we have made slight modifications to the spec documents.  
 
 ## 2 - Design
-CX extension was demonstrated using CORDIC and FFT IP cores from Xilinx's Library. The configurations for the IP cores can be found in (./IP_configuration/) folder.
 
- The Advanced eXtensible Interface (AXI) Stream protocol has been implemented for the high-speed and efficient communication of data between the processor and accelerators. 
+CX extension was demonstrated using CORDIC and FFT IP cores from Xilinx's Library. These IP cores were configured to manage the instruction-based data flow. In order to manage the data and verify the integrity, CX-compliant wrapper modules were defined.
 
-CX-compliant wrappers for each IP core to perform CX checks and translation logic. The[wrapper](./wrapper/) folder
+The Advanced eXtensible Interface (AXI) Stream protocol has been implemented for the high-speed and efficient communication of data between the processor and accelerators.![AXI protocol]() 
 
-Add the CX front-end and signal management as described in [microblaze/CX_interface](./microblaze/CX_interface/).  
-This module is responsible for the execution of a custom instruction 
+Added an interface and the necessary modifications to MicroBlaze-V to support CX extension. These modifications include CSR definitions and pipeline changes. 
 
-Inorder to connect multiple accelerators to the MicroBlaze, Interconnect module has been defined
+The inteconnect module enables the connection of multiple accelerators to the MicroBlaze-V.
+
+For detailed information about the design: [Design](https://github.com/arav1ndps/AddingCXextensionForCustomInstructionToRISC-VCore/tree/main/Derification)
 
 ---
 
 ## 3 - Top-Level Testbench Integration
 
-The overall testbench structure and simulation setup are provided in the [verification](./verification/) folder.  
+The overall testbench structure and simulation setup are provided in the [verification](https://github.com/arav1ndps/AddingCXextensionForCustomInstructionToRISC-VCore/tree/main/Verification) folder.  
 It includes stimulus generation, DUT integration, and self-checking result comparison.
 
 ---
@@ -58,15 +58,15 @@ It includes stimulus generation, DUT integration, and self-checking result compa
 ## 4 - MicroBlaze-V Modifications
 
 Implemented modifications to perform the following functions in MicroBlaze-V:<br>
--CSR definitions (CX_status, CX_mcx_selector)
--Instruction decode
--Enable CX execution
--Pipeline stall
--Result write-back
+- CSR definitions (CX_status, CX_mcx_selector)
+- Instruction decode
+- Enable CX execution
+- Pipeline stall
+- Result write-back
 
 ---
 
-## 9 — Software Library definitions:
+## 5 — Software Library definitions:
 
 The custom CX instructions used in this project were implemented using **GCC inline assembly macros**.  
 These macros provide a software abstraction layer that allows C programs to invoke the CX-based hardware accelerators directly through instruction-level encoding.<br>
@@ -75,14 +75,14 @@ The macros serve two main purposes:
 - To **encode custom instructions** following the CX specification format.  
 - To provide a **high-level software interface** that allows programmers to execute hardware accelerators from C without modifying compiler internals.
 
-## 9 — System Integration in Vivado
+## 6 — System Integration in Vivado
 
 Build the complete system using the MicroBlaze support in Vivado, following scripts in the [vivado](./vivado/) folder.  
 This includes resets, clock generation, and memory configuration files required to implement the final system.
 
 ---
 
-## 10 — Software and Vitis Integration
+## 7 — Software and Vitis Integration
 
 Export the hardware platform to Vitis and integrate the software layer from [software](./software/).  
 Define instruction macros, add CX instruction support, and compile C applications that communicate with hardware accelerators.  
