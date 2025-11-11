@@ -65,7 +65,7 @@ Implemented modifications to perform the following functions in MicroBlaze-V:<br
 
 ---
 
-## 5 — Software Library definitions:
+## 5 - Software Library definitions:
 
 The custom CX instructions used in this project were implemented using **GCC inline assembly macros**.  
 These macros provide a software abstraction layer that allows C programs to invoke the CX-based hardware accelerators directly through instruction-level encoding.<br>
